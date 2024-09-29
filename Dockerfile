@@ -10,7 +10,7 @@ WORKDIR /Micro-XRCE-DDS-Agent/build
 RUN cmake .. && make && make install && ldconfig /usr/local/lib/
 
 # Add source code into workspace
-# ADD ./src /ros_ws
+ADD ./src/ /ros_ws/src/
 
 # Clone dependencies into the workspace
 WORKDIR /ros_ws/src
@@ -23,9 +23,5 @@ RUN git clone -b release/1.15 https://github.com/PX4/px4_msgs.git && \
 WORKDIR /ros_ws
 RUN /bin/bash -c "source /opt/ros/humble/setup.bash && colcon build"
 
-# Source the ROS installation and the interface build
-RUN echo "source /opt/ros/humble/setup.bash" >> /root/.bashrc
-RUN echo "source /ros_ws/install/setup.bash" >> /root/.bashrc
-
 # Set entry point
-CMD ["/bin/bash"]
+CMD ["/ros_ws/src/startup.bash"]

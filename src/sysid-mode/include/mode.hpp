@@ -14,7 +14,7 @@
 
 using namespace std::chrono_literals; // NOLINT
 
-static const std::string kName = "Test Manual Mode";
+static const std::string kName = "Test Mode";
 
 class FlightModeTest : public px4_ros2::ModeBase
 {
@@ -24,6 +24,7 @@ public:
   {
     _manual_control_input = std::make_shared<px4_ros2::ManualControlInput>(*this);
     _actuator_controls = std::make_shared<px4_ros2::DirectActuatorsSetpointType >(*this);
+    // setSetpointUpdateRate(100.0f);
   }
 
   static constexpr int kMaxNumServos = px4_msgs::msg::ActuatorServos::NUM_CONTROLS;
@@ -38,9 +39,10 @@ public:
     Eigen::Matrix<float, kMaxNumServos, 1> servo_commands;
     Eigen::Matrix<float, kMaxNumMotors, 1> motor_commands;
     servo_commands(0) = _manual_control_input->roll();
-    servo_commands(1) = _manual_control_input->pitch();
-    servo_commands(2) = _manual_control_input->yaw();
-    motor_commands(0) = _manual_control_input->throttle();
+    servo_commands(1) = _manual_control_input->roll();
+    servo_commands(2) = _manual_control_input->pitch();
+    servo_commands(3) = _manual_control_input->yaw();
+    motor_commands(4) = _manual_control_input->throttle();
     _actuator_controls->updateServos(servo_commands);
     _actuator_controls->updateMotors(motor_commands);
   }

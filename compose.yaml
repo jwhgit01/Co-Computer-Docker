@@ -4,5 +4,5 @@ services:
     build: .
     tty: true
     privileged: true
-    volumes:
-      - ./src/sysid-mode/:/ros_ws/src/sysid-mode/
+    restart: unless-stopped
+    
