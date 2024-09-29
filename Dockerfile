@@ -10,13 +10,14 @@ WORKDIR /Micro-XRCE-DDS-Agent/build
 RUN cmake .. && make && make install && ldconfig /usr/local/lib/
 
 # Add source code into workspace
-ADD ./src /ros_ws/src
+# ADD ./src /ros_ws
 
-# Clone PX4 dependecies into the workspace
+# Clone dependencies into the workspace
 WORKDIR /ros_ws/src
-RUN git clone https://github.com/PX4/px4_msgs.git
-RUN git clone https://github.com/PX4/px4_ros_com.git
-RUN git clone --recursive https://github.com/Auterion/px4-ros2-interface-lib
+RUN git clone -b release/1.15 https://github.com/PX4/px4_msgs.git && \
+    git clone https://github.com/PX4/px4_ros_com.git && \
+    git clone --recursive https://github.com/Auterion/px4-ros2-interface-lib && \
+    rm -rf /ros_ws/src/px4-ros2-interface-lib/examples/
 
 # Build the ROS workspace
 WORKDIR /ros_ws

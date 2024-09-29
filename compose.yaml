@@ -1,0 +1,8 @@
+services:
+  px4-ros2-interface:
+    container_name: px4-ros2-interface
+    build: .
+    tty: true
+    privileged: true
+    volumes:
+      - ./src/sysid-mode/:/ros_ws/src/sysid-mode/
